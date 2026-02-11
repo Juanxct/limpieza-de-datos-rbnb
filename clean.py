@@ -42,3 +42,32 @@ def eliminar_duplicados(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     print("Este archivo contiene funciones de limpieza. Importalo desde `main.py`.")
+
+def estandarizar_columnas(df):
+    df = df.copy()
+    df.columns = df.columns.str.strip().str.lower()
+    return df
+
+
+def convertir_categoricas(df, columnas):
+    df = df.copy()
+    for col in columnas:
+        df[col] = df[col].astype("category")
+    return df
+
+
+def convertir_loan_approved(df):
+    df = df.copy()
+    df["loan_approved"] = df["loan_approved"].map({1: True, 0: False})
+    return df
+
+
+def validar_rangos(df):
+    df = df.copy()
+    
+    df = df[df["age"] >= 18]
+    df = df[df["credit_score"].between(300, 850)]
+    df = df[df["annual_income"] > 0]
+    df = df[df["loan_amount"] > 0]
+    
+    return df
